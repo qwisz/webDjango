@@ -3,20 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    {% load staticfiles %}
+
+    <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "bootstrap/css/navbar.css" %}" rel="stylesheet">
 </head>
 <body>
-    <h1>{{ question.question_text }}</h1>
 
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<div class="container">
 
-    <form action="{% url 'polls:vote' question.id %}" method="post">
-    {% csrf_token %}
-    {% for choice in question.choice_set.all %}
-        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
-        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
-    {% endfor %}
-    <input type="submit" value="Vote" />
-    </form>
-    </ul>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-brand">webCourse</div>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{% url 'polls:index' %}">Questions</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+    </nav>
+
+    <!-- Main component for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <h1>{{ question.question_text }}</h1>
+
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+        <form class="form-horizontal" action="{% url 'polls:vote' question.id %}" method="post">
+            {% csrf_token %}
+            {% for choice in question.choice_set.all %}
+                {#                <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}"/>#}
+                {#                <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br/>#}
+
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}"/>
+                        {{ choice.choice_text }}
+                    </label>
+                </div>
+            {% endfor %}
+            <br>
+            <input type="submit" value="Vote" class="btn-success"/>
+        </form>
+        </ul>
+    </div>
+</div>
+
+<script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
 </body>
 </html>
